@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, RTE, Select } from "..";
 import appwriteService from "../../appwrite/config";
@@ -18,7 +18,18 @@ export default function PostForm({ post }) {
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
 
+    useEffect(() => {
+        if (!userData) {
+            console.warn("userData is not defined");
+        }
+    }, [userData]);
+
     const submit = async (data) => {
+        if (!userData) {
+            console.error("User data is not available.");
+            return;
+        }
+
         try {
             if (post) {
                 let file = null;
@@ -66,7 +77,7 @@ export default function PostForm({ post }) {
         return "";
     }, []);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const subscription = watch((value, { name }) => {
             if (name === "title") {
                 setValue("slug", slugTransform(value.title), { shouldValidate: true });
@@ -75,6 +86,10 @@ export default function PostForm({ post }) {
 
         return () => subscription.unsubscribe();
     }, [watch, slugTransform, setValue]);
+
+    if (!userData) {
+        return <p>Loading user data...</p>;
+    }
 
     return (
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
