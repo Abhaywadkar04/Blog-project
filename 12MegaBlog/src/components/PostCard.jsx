@@ -2,15 +2,12 @@ import React from 'react';
 import appwriteService from "../appwrite/config";
 import { Link } from 'react-router-dom';
 
-function PostCard({ $id, title, featuredImage }) {
-    // Log to check the value of featuredImage
-    console.log("PostCard - featuredImage:", featuredImage);
-
+function PostCard({ $id, title, featuredimg }) {
     // Generate the preview URL safely
     let previewUrl = '';
-    if (featuredImage) {
+    if (featuredimg) {
         try {
-            previewUrl = appwriteService.getFilePreview(featuredImage);
+            previewUrl = appwriteService.getFilePreview(featuredimg);
         } catch (error) {
             console.error("Error getting file preview:", error);
         }
