@@ -15,16 +15,21 @@ function Home() {
   
     if (posts.length === 0) {
         return (
-            <div className="w-full py-8 mt-4 text-center">
-                <Container>
+            <div className="w-full py-8 mt-4 relative overflow-hidden">
+                <div className="relative z-10">
                     <div className="flex flex-wrap">
                         <div className="p-2 w-full">
-                            <h1 className="text-2xl font-bold hover:text-gray-500">
-                                Login to read posts
+                            <h1 className="text-2xl font-bold absolute bottom-8 left-8 text-black">
+                                Welcome to DevUI - Your Blogging App
                             </h1>
                         </div>
                     </div>
-                </Container>
+                </div>
+                <img
+                    src="https://images.pexels.com/photos/261579/pexels-photo-261579.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                    alt="blog background"
+                    className="w-full h-full object-cover"
+                />
             </div>
         )
     }

@@ -5,10 +5,27 @@ import authService from "./appwrite/auth"
 import {login, logout} from "./store/authSlice"
 import { Footer, Header } from './components'
 import { Outlet } from 'react-router-dom'
+import { ThemeProvider } from './contexts/theme'
 
 function App() {
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
+
+
+  const [theme, setTheme] = useState('light')
+
+  const lightTheme = () => {
+    setTheme('light')
+  }
+
+  const darkTheme = () => {
+    setTheme('dark')
+  }
+
+  useEffect(() => {
+    document.querySelector('html').classList.remove('light', 'dark')
+    document.querySelector('html').classList.add(theme)
+  }, [theme])
 
   useEffect(() => {
     authService.getCurrentUser()
@@ -23,15 +40,17 @@ function App() {
   }, [])
   
   return !loading ? (
-    <div className='min-h-screen flex flex-wrap content-between bg-gray-400'>
-      <div className='w-full block'>
+    <ThemeProvider value={{ theme, lightTheme, darkTheme }}>
+    <div >
+      <div >
         <Header />
         <main>
-        TODO:  <Outlet />
+        <Outlet />
         </main>
         <Footer />
       </div>
     </div>
+    </ThemeProvider>
   ) : null
 }
 

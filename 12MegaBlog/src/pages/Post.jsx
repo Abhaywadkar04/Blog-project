@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import appwriteService from "../appwrite/config";
-import { Button, Container } from "../components";
+import { Container } from "../components";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
 
@@ -18,7 +18,7 @@ export default function Post() {
             appwriteService.getPost(slug).then((post) => {
                 if (post) {
                     setPost(post);
-                    if (userData && post.userId === userData.$id) {
+                    if (userData && post.userid === userData.$id) {
                         setIsAuthor(true);
                     } else {
                         setIsAuthor(false);
@@ -42,31 +42,38 @@ export default function Post() {
     };
 
     return post ? (
-        <div className="py-8 bg-main">
+        <div className="bg-gray-100 min-h-screen">
             <Container>
-                <div className="w-full flex justify-center mb-4 relative rounded-xl p-2">
+                <div className="w-full flex justify-center mb-4 relative rounded-xl p-4 bg-white shadow-lg">
                     <img
                         src={appwriteService.getFilePreview(post.featuredimg)}
                         alt={post.title}
-                        className="rounded-xl z-[1]"
+                        className="rounded-xl z-[1] max-w-sm"
                     />
 
-                    <div className="absolute right-6 top-6 z-[2]">
-                        <Link to={`/edit-post/${post.$id}`}>
-                            <Button bgColor="bg-blue-600" className="mr-3 z-[2] rounded-xl px-2 py-1 hover:bg-blue-400 duration-300 sm:px-4 py-">
-                                Edit
-                            </Button>
-                        </Link>
-                        <Button bgColor="bg-red-600" className="rounded-xl px-2 py-1 hover:bg-red-800 duration-300" onClick={deletePost}>
-                            Delete
-                        </Button>
+                    {isAuthor && (
+                        <div className="absolute right-6 top-6">
+                            <Link to={`/edit-post/${post.$id}`}>
+                                <button className="mr-3 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-400">
+                                    Edit
+                                </button>
+                            </Link>
+                            <button
+                                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-400"
+                                onClick={deletePost}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    )}
+                </div>
+                <div className="w-full mb-6 text-gray-900 text-4xl font-semibold">
+                    {post.title}
+                </div>
+                <div className="browser-css text-gray-900 text-2xl font-light">
+                    <div className="p-8 bg-white rounded-xl shadow-lg">
+                        {parse(post.content)}
                     </div>
-                </div>
-                <div className="w-full mb-6">
-                    <h1 className="text-4xl font-bold text-zinc-100">{post.title}</h1>
-                </div>
-                <div className="browser-css text-2xl font-semibold">
-                    {parse(post.content)}
                 </div>
             </Container>
         </div>
