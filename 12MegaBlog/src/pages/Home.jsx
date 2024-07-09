@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import appwriteService from "../appwrite/config";
 import {Container, PostCard} from '../components'
+import useTheme from '../contexts/theme';
+
 
 function Home() {
     const [posts, setPosts] = useState([])
+    const { theme } = useTheme();
 
     useEffect(() => {
         appwriteService.getPosts().then((posts) => {
@@ -15,7 +18,7 @@ function Home() {
   
     if (posts.length === 0) {
         return (
-            <div className="w-full py-8 mt-4 relative overflow-hidden">
+            <div className={`w-full py-8 mt-4 relative overflow-hidden ${theme === 'light' ? 'bg-gray-800' : 'bg-black'}`}>
                 <div className="relative z-10">
                     <div className="flex flex-wrap">
                         <div className="p-2 w-full">

@@ -3,10 +3,12 @@ import { Container, Logo, LogoutBtn, ThemeBtn } from '../index';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import useTheme from '../../contexts/theme';
 
 function Header() {
   const authStatus = useSelector((state) => state.auth.status);
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   const navItems = [
     { name: 'Home', slug: '/', active: true },
@@ -17,7 +19,7 @@ function Header() {
   ];
 
   return (
-    <header className="py-4 shadow-lg bg-gray-800">
+    <header className={`py-4 shadow-lg ${theme === 'light' ? 'white' : 'bg-black'}`}>
       <Container>
         <nav className="flex items-center">
           <div className="mr-8">
@@ -25,13 +27,13 @@ function Header() {
               <Logo width="70px" />
             </Link>
           </div>
-          
+
           <div className="flex items-center">
             <div className="md:m-4">
               <ThemeBtn />
             </div>
           </div>
-          
+
           <ul className="flex ml-auto space-x-6">
             {navItems.map(
               (item) =>
@@ -39,8 +41,7 @@ function Header() {
                   <li key={item.name}>
                     <button
                       onClick={() => navigate(item.slug)}
-                      className="inline-block px-6 py-2 text-white rounded-full duration-200 hover:bg-blue-600 hover:text-white"
-                    >
+                      className={`inline-block px-6 py-2 rounded-full duration-200 hover:bg-gray-500 ${theme === 'light' ? 'text-black' : 'text-white'}`}>
                       {item.name}
                     </button>
                   </li>
@@ -57,5 +58,6 @@ function Header() {
     </header>
   );
 }
+
 
 export default Header;
