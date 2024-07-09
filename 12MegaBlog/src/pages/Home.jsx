@@ -19,7 +19,7 @@ function Home() {
                 <div className="relative z-10">
                     <div className="flex flex-wrap">
                         <div className="p-2 w-full">
-                            <h1 className="text-2xl font-bold absolute bottom-8 left-8 text-black">
+                            <h1 className="text-2xl font-bold absolute bottom-8 left-8 text-white">
                                 Welcome to DevUI - Your Blogging App
                             </h1>
                         </div>
@@ -28,7 +28,10 @@ function Home() {
                 <img
                     src="https://images.pexels.com/photos/261579/pexels-photo-261579.jpeg?auto=compress&cs=tinysrgb&w=1200"
                     alt="blog background"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover bg-cover bg-center"
+                    style={{
+                        backgroundImage: "linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://images.pexels.com/photos/261579/pexels-photo-261579.jpeg?auto=compress&cs=tinysrgb&w=1200)"
+                    }}
                 />
             </div>
         )

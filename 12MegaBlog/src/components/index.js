@@ -13,6 +13,7 @@ import PostCard from "./PostCard";
 import AuthLayout from "./AuthLayout";
 import Input from "./Input";
 import ThemeBtn from './ThemeBtn'
+import LikeBtn from "./LikeBtn";
 export {
     Header,
     Footer,
@@ -28,5 +29,6 @@ export {
     AuthLayout, 
     Input,
     Select,
-    ThemeBtn
+    ThemeBtn,
+    LikeBtn,
 }

@@ -27,10 +27,9 @@ function Login() {
     }
 
   return (
-    <div
-    className='flex items-center justify-center w-full'
-    >
-        <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
+    <div className='bg-cover bg-center h-screen' style={{backgroundImage: 'url(https://images.pexels.com/photos/534164/pexels-photo-534164.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'}}>
+        <div className="flex items-center justify-center w-full h-full bg-black/30">
+        <div className={`mx-auto w-full max-w-lg bg-white rounded-xl p-10`}>
         <div className="mb-2 flex justify-center">
                     <span className="inline-block w-full max-w-[100px]">
                         <Logo width="100%" />
@@ -76,6 +75,7 @@ function Login() {
             </div>
         </form>
         </div>
+    </div>
     </div>
   )
 }

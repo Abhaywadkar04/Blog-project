@@ -4,12 +4,15 @@ import appwriteService from "../appwrite/config";
 import { Container } from "../components";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
+import LikeBtn from "../components/LikeBtn";
 
 export default function Post() {
     const [post, setPost] = useState(null);
-    const [isAuthor, setIsAuthor] = useState(true);
+    const [isAuthor, setIsAuthor] = useState(false);
     const { slug } = useParams();
     const navigate = useNavigate();
+    const [isLiked, setIsLiked] = useState(false);
+    const [likeCount, setLikeCount] = useState(0);
 
     const userData = useSelector((state) => state.auth.userData);
 
@@ -20,8 +23,6 @@ export default function Post() {
                     setPost(post);
                     if (userData && post.userid === userData.$id) {
                         setIsAuthor(true);
-                    } else {
-                        setIsAuthor(false);
                     }
                 } else {
                     navigate("/");
@@ -32,13 +33,65 @@ export default function Post() {
         }
     }, [slug, navigate, userData]);
 
-    const deletePost = () => {
-        appwriteService.deletePost(post.$id).then((status) => {
-            if (status) {
-                appwriteService.deleteFile(post.featuredimg);
-                navigate("/");
+    const findId = (arr, str) => {
+        return arr ? arr.includes(str) : false;
+    };
+
+    const handleLikes = async () => {
+        if (post && userData) {
+            const updatedLikes = isLiked
+                ? post.likes.filter((id) => id !== userData.$id)
+                : [...post.likes, userData.$id];
+
+            setIsLiked((prev) => !prev);
+
+            const find = findId(post.likes, userData.$id);
+            setLikeCount(
+                !isLiked && !find
+                    ? (post.likes ? post.likes.length : 0) + 1
+                    : isLiked && find
+                    ? (post.likes ? post.likes.length : 0) - 1
+                    : post.likes ? post.likes.length : 0
+            );
+
+            try {
+                await appwriteService.updatePost(post.$id, {
+                    ...post,
+                    likes: updatedLikes,
+                });
+                console.log("Likes updated successfully");
+            } catch (error) {
+                console.error("Failed to update likes:", error);
             }
-        });
+        }
+    };
+
+    useEffect(() => {
+        if (slug) {
+            appwriteService.getPost(slug).then((post) => {
+                if (post) {
+                    setPost(post);
+                    const find = findId(post.likes, userData?.$id);
+                    setIsLiked(find);
+                    setLikeCount(post.likes ? post.likes.length : 0);
+                } else {
+                    navigate("/");
+                }
+            });
+        } else {
+            navigate("/");
+        }
+    }, [slug, navigate, userData]);
+
+    const deletePost = () => {
+        if (post) {
+            appwriteService.deletePost(post.$id).then((status) => {
+                if (status) {
+                    appwriteService.deleteFile(post.featuredimg);
+                    navigate("/");
+                }
+            });
+        }
     };
 
     return post ? (
@@ -74,6 +127,13 @@ export default function Post() {
                     <div className="p-8 bg-white rounded-xl shadow-lg">
                         {parse(post.content)}
                     </div>
+                </div>
+                <div className="mt-2">
+                    <LikeBtn
+                        likeCount={likeCount}
+                        handleLikes={handleLikes}
+                        isLiked={isLiked}
+                    />
                 </div>
             </Container>
         </div>
