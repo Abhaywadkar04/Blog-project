@@ -19,7 +19,7 @@ function Header() {
   ];
 
   return (
-    <header className={`py-4 shadow-lg ${theme === 'light' ? 'white' : 'bg-black'}`}>
+    <header className={`py-4 shadow-lg border-b-2 border-black ${theme === 'light' ? 'white' : 'bg-gray-800'}`}>
       <Container>
         <nav className="flex items-center">
           <div className="mr-8">
@@ -33,7 +33,7 @@ function Header() {
               <ThemeBtn />
             </div>
           </div>
-
+      
           <ul className="flex ml-auto space-x-6">
             {navItems.map(
               (item) =>

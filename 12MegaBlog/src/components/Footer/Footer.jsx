@@ -6,7 +6,7 @@ import useTheme from '../../contexts/theme';
 function Footer() {
   const { theme } = useTheme();
   return (
-    <section className={`relative overflow-hidden py-10 bg-${theme === 'light' ? 'white' : 'black'}`}>
+    <section className={`relative overflow-hidden py-10 bg-gray-800`}>
       <div className="relative z-10 mx-auto max-w-7xl px-4">
         <div className="-m-6 flex flex-wrap">
           <div className="w-full p-6 md:w-1/2 lg:w-5/12">
@@ -15,7 +15,7 @@ function Footer() {
                 <Logo width="100px" />
               </div>
               <div>
-              <p className={`text-sm ${theme === 'light' ? 'black' : 'text-white'}`}>
+              <p className={`text-white`}>
   &copy; Copyright 2023. All Rights Reserved by DevUI.
 </p>
               </div>
@@ -26,7 +26,7 @@ function Footer() {
               <h3 className="tracking-px mb-9 text-xs font-semibold uppercase text-gray-500">
                 Company
               </h3>
-              <ul className={`text-${theme === 'light' ? 'black' : 'white'}`}>
+              <ul className={`text-white`}>
                 <li className="mb-4">
                   <Link
                     className="text-base font-medium hover:text-gray-400 transition duration-300"
@@ -67,7 +67,7 @@ function Footer() {
               <h3 className="tracking-px mb-9 text-xs font-semibold uppercase text-gray-500">
                 Support
               </h3>
-              <ul className={`text-${theme === 'light' ? 'black' : 'white'}`}>
+              <ul className={`text-white`}>
                 <li className="mb-4">
                   <Link
                     className="text-base font-medium hover:text-gray-400 transition duration-300"
@@ -108,7 +108,7 @@ function Footer() {
               <h3 className="tracking-px mb-9 text-xs font-semibold uppercase text-gray-500">
                 Legals
               </h3>
-              <ul className={`text-${theme === 'light' ? 'black' : 'white'}`}>
+              <ul className={`text-white`}>
                 <li className="mb-4">
                   <Link
                     className="text-base font-medium hover:text-gray-400 transition duration-300"

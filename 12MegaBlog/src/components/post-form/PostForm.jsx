@@ -87,9 +87,7 @@ export default function PostForm({ post }) {
         return () => subscription.unsubscribe();
     }, [watch, slugTransform, setValue]);
 
-    if (!userData) {
-        return <p>Loading user data...</p>;
-    }
+    
 
     return (
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
@@ -134,7 +132,7 @@ export default function PostForm({ post }) {
                     className="mb-4"
                     {...register("status", { required: true })}
                 />
-                <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
+                <Button type="submit" bgColor="bg-blue-500" className="w-full px-4 py-2 rounded-lg text-gray-500 font-semibold shadow-md hover:bg-blue-600">
                     {post ? "Update" : "Submit"}
                 </Button>
             </div>

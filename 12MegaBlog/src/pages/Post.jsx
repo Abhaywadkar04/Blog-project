@@ -5,6 +5,7 @@ import { Container } from "../components";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
 import LikeBtn from "../components/LikeBtn";
+import useTheme from '../contexts/theme';
 
 export default function Post() {
     const [post, setPost] = useState(null);
@@ -13,6 +14,7 @@ export default function Post() {
     const navigate = useNavigate();
     const [isLiked, setIsLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
+    const { theme } = useTheme();
 
     const userData = useSelector((state) => state.auth.userData);
 
@@ -95,9 +97,9 @@ export default function Post() {
     };
 
     return post ? (
-        <div className="bg-gray-100 min-h-screen">
+        <div className={`min-h-screen ${theme === 'light' ? 'bg-white' : 'bg-black'}`}>
             <Container>
-                <div className="w-full flex justify-center mb-4 relative rounded-xl p-4 bg-white shadow-lg">
+                <div className={`w-full flex justify-center mb-4 relative rounded-xl p-4 ${theme === 'light' ? 'bg-white' : 'bg-black'}`}>
                     <img
                         src={appwriteService.getFilePreview(post.featuredimg)}
                         alt={post.title}
@@ -120,12 +122,19 @@ export default function Post() {
                         </div>
                     )}
                 </div>
-                <div className="w-full mb-6 text-gray-900 text-4xl font-semibold">
+                <div className={`w-full mb-6 text-${theme === 'light' ? 'black' : 'white'} text-3xl font-bold`}>
                     {post.title}
                 </div>
-                <div className="browser-css text-gray-900 text-2xl font-light">
-                    <div className="p-8 bg-white rounded-xl shadow-lg">
-                        {parse(post.content)}
+                <div className={`text-2xl font-light text-${theme === 'light' ? 'black' : 'white'}`}>
+                    <div className={`p-8 ${theme === 'light' ? 'bg-white' : 'bg-black'} space-y-4`}>
+                        {parse(post.content, {
+                            replace: (domNode) => {
+                                if (domNode.name === 'p') {
+                                    return <p className="mb-4">{domNode.children.map(child => child.data)}</p>;
+                                }
+                                return domNode;
+                            }
+                        })}
                     </div>
                 </div>
                 <div className="mt-2">
